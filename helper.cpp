@@ -30,17 +30,18 @@ QString Helper::GetHostedNetworkStatus()
 
 QString Helper::EnableHostedNetwork()
 {
-    return Helper::RunProgram("netsh", QStringList() << "wlan" << "mode=allow");
+    return Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork" << "mode=allow");
 }
 
 QString Helper::DisableHostedNetwork()
 {
-    return Helper::RunProgram("netsh", QStringList() << "wlan" << "mode=disallow");
+    return Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork" << "mode=disallow");
 }
 
 QString Helper::SetHostedNetwork(const QString &ssid, const QString &key)
 {
     return Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork"
+                              << "mode=allow"
                               << QString("ssid=%1").arg(ssid)
                               << QString("key=%1").arg(key)
                               );

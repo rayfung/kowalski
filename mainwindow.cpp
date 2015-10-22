@@ -1,6 +1,7 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "helper.h"
+#include "settingsdialog.h"
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
@@ -57,22 +58,22 @@ void MainWindow::on_pushButtonStop_clicked()
 
 void MainWindow::on_pushButtonSettings_clicked()
 {
-    QString ssid = QInputDialog::getText(this, QString("设置 SSID"), QString("请输入热点的 SSID"),
-                                         QLineEdit::Normal, QString(), 0, 0, Qt::ImhLatinOnly);
-    if(ssid.trimmed().isEmpty())
+    SettingsDialog dialog;
+    QString output;
+
+    if(dialog.exec() == QDialog::Rejected)
         return;
 
-    QString passphrase = QInputDialog::getText(this, QString("设置密码"), QString("请输入密码（8 至 32 个字符）"),
-                                               QLineEdit::Password, QString(), 0, 0, Qt::ImhLatinOnly);
-    if(passphrase.isNull())
-        return;
-    if(passphrase.length() < 8 || passphrase.length() > 32)
+    if(dialog.isHostedNetworkEnabled())
     {
-        QMessageBox::information(this, QString("设置密码"), QString("密码不正确！"));
-        return;
+        output = Helper::SetHostedNetwork(dialog.getSSID(), dialog.getKey());
+    }
+    else
+    {
+        output = Helper::DisableHostedNetwork();
     }
 
-    QString output = Helper::SetHostedNetwork(ssid, passphrase);
+    output += Helper::GetHostedNetworkStatus();
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
 }
