@@ -21,6 +21,7 @@ public:
 
 private slots:
     void on_buttonBox_accepted();
+    void on_checkBoxEnableHostedNetwork_clicked();
 
 private:
     Ui::SettingsDialog *ui;

@@ -65,3 +65,10 @@ QString SettingsDialog::getKey()
 {
     return ui->lineEditKey->text();
 }
+
+void SettingsDialog::on_checkBoxEnableHostedNetwork_clicked()
+{
+    bool hostedNetworkEnabled = ui->checkBoxEnableHostedNetwork->isChecked();
+    ui->lineEditSSID->setEnabled(hostedNetworkEnabled);
+    ui->lineEditKey->setEnabled(hostedNetworkEnabled);
+}
