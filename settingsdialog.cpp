@@ -32,14 +32,32 @@ void SettingsDialog::on_buttonBox_accepted()
 {
     if(ui->checkBoxEnableHostedNetwork->isChecked())
     {
-        if(ui->lineEditSSID->hasAcceptableInput() == false)
+        bool ignoreSSID = false;
+        bool ignoreKey = false;
+
+        if(ui->lineEditSSID->text().isEmpty() && ui->lineEditKey->text().isEmpty() == false)
+        {
+            if(QMessageBox::question(this, QString("提示"), QString("SSID 为空，表示不更改 SSID，是否继续？")) == QMessageBox::Yes)
+                ignoreSSID = true;
+            else
+                return;
+        }
+        else if(ui->lineEditSSID->text().isEmpty() == false && ui->lineEditKey->text().isEmpty())
+        {
+            if(QMessageBox::question(this, QString("提示"), QString("密码为空，表示不更改密码，是否继续？")) == QMessageBox::Yes)
+                ignoreKey = true;
+            else
+                return;
+        }
+
+        if(ignoreSSID == false && ui->lineEditSSID->hasAcceptableInput() == false)
         {
             QMessageBox::information(this, QString("提示"), QString("SSID 至少需要两个字符，请重新输入！"));
             ui->lineEditSSID->selectAll();
             ui->lineEditSSID->setFocus();
             return;
         }
-        if(ui->lineEditKey->hasAcceptableInput() == false)
+        if(ignoreKey == false && ui->lineEditKey->hasAcceptableInput() == false)
         {
             QMessageBox::information(this, QString("提示"), QString("密码至少需要 8 个字符，请重新输入！"));
             ui->lineEditKey->selectAll();

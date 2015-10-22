@@ -40,6 +40,15 @@ QString Helper::DisableHostedNetwork()
 
 QString Helper::SetHostedNetwork(const QString &ssid, const QString &key)
 {
+    if(ssid.isEmpty() && key.isEmpty())
+        return QString("One of SSID and key must be not empty!");
+
+    if(ssid.isEmpty() == false && key.isEmpty())
+        return SetHostedNetworkSSID(ssid);
+
+    if(ssid.isEmpty() && key.isEmpty() == false)
+        return SetHostedNetworkKey(key);
+
     return Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork"
                               << "mode=allow"
                               << QString("ssid=%1").arg(ssid)
