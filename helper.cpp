@@ -58,10 +58,10 @@ QString Helper::SetHostedNetwork(const QString &ssid, const QString &key)
 
 QString Helper::SetHostedNetworkSSID(const QString &ssid)
 {
-    return Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork" << QString("ssid=%1").arg(ssid));
+    return Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork" << "mode=allow" << QString("ssid=%1").arg(ssid));
 }
 
 QString Helper::SetHostedNetworkKey(const QString &key)
 {
-    return Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork" << QString("key=%1").arg(key));
+    return Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork" << "mode=allow" << QString("key=%1").arg(key));
 }
