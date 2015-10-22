@@ -24,7 +24,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QString logSeparator;
 };
 
 #endif // MAINWINDOW_H

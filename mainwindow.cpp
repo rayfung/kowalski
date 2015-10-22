@@ -38,7 +38,6 @@ void MainWindow::on_pushButtonStart_clicked()
 {
     QString output = Helper::StartHostedNetwork();
 
-    output += logSeparator;
     output += Helper::GetHostedNetworkStatus();
 
     ui->plainTextEditInfo->clear();
@@ -49,7 +48,6 @@ void MainWindow::on_pushButtonStop_clicked()
 {
     QString output = Helper::StopHostedNetwork();
 
-    output += logSeparator;
     output += Helper::GetHostedNetworkStatus();
 
     ui->plainTextEditInfo->clear();

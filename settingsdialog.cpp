@@ -3,6 +3,7 @@
 #include <QRegExp>
 #include <QRegExpValidator>
 #include <QMessageBox>
+#include <QSettings>
 
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
@@ -21,6 +22,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QRegExp keyRX("^[\\0040-\\0176]{8,32}$");
     QValidator *keyValidator = new QRegExpValidator(keyRX);
     ui->lineEditKey->setValidator(keyValidator);
+
+    LoadSettings();
 }
 
 SettingsDialog::~SettingsDialog()
@@ -66,6 +69,7 @@ void SettingsDialog::on_buttonBox_accepted()
         }
     }
 
+    SaveSettings();
     this->accept();
 }
 
@@ -84,7 +88,24 @@ QString SettingsDialog::getKey()
     return ui->lineEditKey->text();
 }
 
-void SettingsDialog::on_checkBoxEnableHostedNetwork_clicked()
+void SettingsDialog::LoadSettings()
+{
+    QSettings settings(QString("Ray Fung"), QString("Kowalski"));
+
+    ui->checkBoxEnableHostedNetwork->setChecked(settings.value(QString("enabled"), false).toBool());
+    ui->lineEditSSID->setText(settings.value(QString("ssid"), QString("Kowalski")).toString());
+}
+
+void SettingsDialog::SaveSettings()
+{
+    QSettings settings(QString("Ray Fung"), QString("Kowalski"));
+
+    settings.setValue(QString("enabled"), ui->checkBoxEnableHostedNetwork->isChecked());
+    if(ui->lineEditSSID->text().isEmpty() == false)
+        settings.setValue(QString("ssid"), ui->lineEditSSID->text());
+}
+
+void SettingsDialog::on_checkBoxEnableHostedNetwork_toggled(bool /* checked */)
 {
     bool hostedNetworkEnabled = ui->checkBoxEnableHostedNetwork->isChecked();
     ui->lineEditSSID->setEnabled(hostedNetworkEnabled);

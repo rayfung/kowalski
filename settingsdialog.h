@@ -19,9 +19,13 @@ public:
     QString getSSID();
     QString getKey();
 
+private:
+    void LoadSettings();
+    void SaveSettings();
+
 private slots:
     void on_buttonBox_accepted();
-    void on_checkBoxEnableHostedNetwork_clicked();
+    void on_checkBoxEnableHostedNetwork_toggled(bool);
 
 private:
     Ui::SettingsDialog *ui;
