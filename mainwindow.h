@@ -15,9 +15,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
-    QString RunProgram(const QString &path, const QStringList &arg);
-
 private slots:
     void on_pushButtonStart_clicked();
     void on_pushButtonStop_clicked();

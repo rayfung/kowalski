@@ -1,6 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QProcess>
+#include "helper.h"
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
@@ -25,21 +25,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-QString MainWindow::RunProgram(const QString &path, const QStringList &arg)
-{
-    QProcess process;
-
-    process.start(path, arg);
-    if(!process.waitForStarted())
-        return QString("Cannot start program: " + path);
-    if(!process.waitForFinished())
-        return QString("Program not responding: " + path);
-    return QString::fromLocal8Bit(process.readAll());
-}
-
 void MainWindow::on_pushButtonRefresh_clicked()
 {
-    QString output = RunProgram("netsh", QStringList() << "wlan" << "show" << "hostednetwork");
+    QString output = Helper::RunProgram("netsh", QStringList() << "wlan" << "show" << "hostednetwork");
 
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
@@ -47,7 +35,7 @@ void MainWindow::on_pushButtonRefresh_clicked()
 
 void MainWindow::on_pushButtonStart_clicked()
 {
-    QString output = RunProgram("netsh", QStringList() << "wlan" << "start" << "hostednetwork");
+    QString output = Helper::RunProgram("netsh", QStringList() << "wlan" << "start" << "hostednetwork");
 
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
@@ -55,7 +43,7 @@ void MainWindow::on_pushButtonStart_clicked()
 
 void MainWindow::on_pushButtonStop_clicked()
 {
-    QString output = RunProgram("netsh", QStringList() << "wlan" << "stop" << "hostednetwork");
+    QString output = Helper::RunProgram("netsh", QStringList() << "wlan" << "stop" << "hostednetwork");
 
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
@@ -78,11 +66,11 @@ void MainWindow::on_pushButtonSettings_clicked()
         return;
     }
 
-    QString output = RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork"
-                                << "mode=allow"
-                                << QString("ssid=%1").arg(ssid)
-                                << QString("key=%1").arg(passphrase)
-                                );
+    QString output = Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork"
+                                        << "mode=allow"
+                                        << QString("ssid=%1").arg(ssid)
+                                        << QString("key=%1").arg(passphrase)
+                                        );
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
 }
