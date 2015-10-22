@@ -27,7 +27,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButtonRefresh_clicked()
 {
-    QString output = Helper::RunProgram("netsh", QStringList() << "wlan" << "show" << "hostednetwork");
+    QString output = Helper::GetHostedNetworkStatus();
 
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
@@ -35,7 +35,7 @@ void MainWindow::on_pushButtonRefresh_clicked()
 
 void MainWindow::on_pushButtonStart_clicked()
 {
-    QString output = Helper::RunProgram("netsh", QStringList() << "wlan" << "start" << "hostednetwork");
+    QString output = Helper::StartHostedNetwork();
 
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
@@ -43,7 +43,7 @@ void MainWindow::on_pushButtonStart_clicked()
 
 void MainWindow::on_pushButtonStop_clicked()
 {
-    QString output = Helper::RunProgram("netsh", QStringList() << "wlan" << "stop" << "hostednetwork");
+    QString output = Helper::StopHostedNetwork();
 
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
@@ -66,11 +66,7 @@ void MainWindow::on_pushButtonSettings_clicked()
         return;
     }
 
-    QString output = Helper::RunProgram("netsh", QStringList() << "wlan" << "set" << "hostednetwork"
-                                        << "mode=allow"
-                                        << QString("ssid=%1").arg(ssid)
-                                        << QString("key=%1").arg(passphrase)
-                                        );
+    QString output = Helper::SetHostedNetwork(ssid, passphrase);
     ui->plainTextEditInfo->clear();
     ui->plainTextEditInfo->appendPlainText(output);
 }
