@@ -1,4 +1,4 @@
-﻿#include "helper.h"
+#include "helper.h"
 #include <QProcess>
 
 QString Helper::RunProgram(const QString &path, const QStringList &arg)

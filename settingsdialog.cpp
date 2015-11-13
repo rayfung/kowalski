@@ -1,4 +1,4 @@
-﻿#include "settingsdialog.h"
+#include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include <QRegExp>
 #include <QRegExpValidator>
